@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+{% for  a in aaa %}
+    <div style="width:100%;font-size:10px;display: flex;flex-direction: row;justify-content:space-around">
+    <p>{{ a }},次数{{ forloop.counter }}</p>
+
+    </div>
+{% endfor %}
+
+</body>
+</html>
