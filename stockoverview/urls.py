@@ -16,8 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from monitor import views as monitor_views
+from delivery_order import views as delivery_views
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('',monitor_views.index),
-    path('monitor',monitor_views.monitor)
+
+    path('monitor',monitor_views.monitor),
+
+    # 交割单
+    path('jgd',delivery_views.delivery_order_view),
+
+    path('query/',delivery_views.query),
+
+
 ]

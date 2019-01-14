@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>交割单查询</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+           $("#btn").click(function () {
+               var name = $("#input_name").val();
+               console.log(name);
+               $.get('/query/',{'name':name},function (ret) {
+                   console.log('Enter');
+                   $("#query_result").html(ret);
+                   console.log(ret);
+                   console.log('End');
+               });
+
+           });
+        });
+    </script>
+</head>
+<body>
+<div>
+    <p><b>查询页面</b></p>
+</div>
+<p><b>账号</b></p>
+
+    <input id="input_name" type="text">
+    <button type="button" id="btn">查询</button>
+
+<p>这里有个结果数据</p>
+<p id="query_result"></p>
+</body>
+</html>
