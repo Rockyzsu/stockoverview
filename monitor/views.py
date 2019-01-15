@@ -5,7 +5,8 @@ from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
-    return HttpResponse('Pass')
+    print('here')
+    return render(request,'index.html')
 
 
 # 监控持仓股

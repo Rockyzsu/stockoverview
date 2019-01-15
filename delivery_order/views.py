@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from delivery_order.models import NameForms
 from django.http import HttpResponse,JsonResponse
@@ -9,33 +11,26 @@ from delivery_order.models import TbDeliveryGjDjango
 def delivery_order_view(request):
 
     if request.method=='GET':
-        print('GET')
-        form = NameForms()
-        return render(request,'delivery.html',{'form':form})
+        return render(request,'delivery.html')
     else:
-        print('POST')
-        form=NameForms(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            print(name)
-            objs = TbDeliveryGjDjango.objects.filter(证券名称=name)
-            # print(obj)
-            for obj in objs:
-                print(obj.本次金额,obj.成交数量)
-            return HttpResponse('get')
+        return HttpResponse('非法请求')
 
 
-def query(request):
+def query_post_json(request):
+
     name = request.GET.get('name')
-    objs = TbDeliveryGjDjango.objects.filter(证券名称=name)
-    # print(obj)
+    # 根据名称模糊查询
+
+    objs = TbDeliveryGjDjango.objects.all().filter(证券名称__contains=name).order_by('-成交日期')
     result = []
+
     for obj in objs:
-        # print(obj.本次金额, obj.成交数量)
-        result.append(str(obj.本次金额)+' '+str(obj.成交数量)+'<br>')
-    # print('name',name)
-    # result = {'ret':name + ' append'}
-    # return JsonResponse(result)
+        d=obj.成交日期
+        d_format = d.strftime('%Y-%m-%d')
+        result.append([d_format,obj.证券名称,obj.成交均价,obj.成交金额,obj.成交数量,obj.操作])
     if not result:
-        result = '无查询结果<br>'
-    return HttpResponse(''.join(result))
+        result = []
+    return JsonResponse(result,safe=False)
+
+def jingzhi(request):
+    request.POST.get('')

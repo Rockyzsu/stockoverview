@@ -17,7 +17,6 @@ from stockoverview import config
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = 'w)fwk-@#lxcwf+w4ql8t^$^cw*zq767gzq9p69djz$irvi2sje'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -58,7 +56,7 @@ ROOT_URLCONF = 'stockoverview.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'stockoverview.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -83,16 +80,15 @@ DATABASES = {
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
 
-'default': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_stock', #连接的数据库名
+        'NAME': 'db_stock',  # 连接的数据库名
         'HOST': 'localhost',
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': config.mysql_password,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -112,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -126,9 +121,14 @@ USE_L10N = True
 
 USE_TZ = True
 import pymysql
+
 pymysql.install_as_MySQLdb()
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# STATIC_URL = '/static/'
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static/'),
+)
