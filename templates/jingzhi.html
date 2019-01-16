@@ -20,6 +20,8 @@
                     success: function (json) {
 
                         alert('更新成功');
+                        console.log(json);
+                        $("#jz_content").text("当前净值："+json['netvalue']+' ;    '+'收益率：'+json['raise_value']+'%<br>');
                     },
                     error: function () {
                         alert('更新失败');
@@ -36,6 +38,6 @@
     输入今日资产：<input type="text" id="btn_money">
     <button type="button" id="record">录入</button>
 </div>
-
+<div class="current_jz" align="center"><p id="jz_content"></p></div>
 </body>
 </html>
