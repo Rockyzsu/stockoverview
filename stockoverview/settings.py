@@ -26,7 +26,7 @@ SECRET_KEY = 'w)fwk-@#lxcwf+w4ql8t^$^cw*zq767gzq9p69djz$irvi2sje'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -83,7 +83,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db_stock',  # 连接的数据库名
-        'HOST': 'localhost',
+        'HOST': config.mysql_host,
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': config.mysql_password,

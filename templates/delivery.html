@@ -36,55 +36,11 @@
 
     <script>
         $(document).ready(function () {
-            $("#btn").click(function () {
-                var name = $("#input_name").val();
-                console.log(name);
-                $.get('/query/', {'name': name}, function (ret) {
-                    console.log('Enter');
-                    $("#query_result").html(ret);
-                    console.log(ret);
-                    console.log('End');
-                });
-            });
-
-
-            $("#btn_post").click(function () {
-                var name = $("#input_name_post").val();
-                console.log(name);
-                var post_data = {
-                    'name': name,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                };
-                $.ajax(
-                    {
-                        url: '/query_post/',
-                        type: 'POST',
-                        data: post_data,
-                        success: function (ret) {
-                            console.log('返回数据');
-                            {#console.log(ret);#}
-                            for (var i = 0; i < ret.length - 1; i++) {
-                                console.log(ret[i]);
-                            }
-                            $("div.kzz >ul").html('<p>HHHH</p>')
-
-                        },
-                        error: function () {
-                            alert('ajax传输失败');
-                        },
-
-                    });
-
-            });
-
 
             $("#btn_post_json").click(function () {
                 var name = $("#input_name_post_json").val();
                 console.log(name);
-                var post_data = {
-                    'name': name,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                };
+
                 $.getJSON(
                     '/query_post_json/',
                     {'name': name},

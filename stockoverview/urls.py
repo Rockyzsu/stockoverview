@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from monitor import views as monitor_views
 from delivery_order import views as delivery_views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +30,12 @@ urlpatterns = [
     path('jgd',delivery_views.delivery_order_view),
 
     path('query_post_json/',delivery_views.query_post_json),
-    path('jz/',delivery_views.jingzhi),
+
+    path('jz/',delivery_views.jingzhi_view),
+
+    # 更新净值
+    path('update_jz/',delivery_views.jingzhi),
 
 ]
+
+urlpatterns += staticfiles_urlpatterns()
