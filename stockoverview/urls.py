@@ -35,6 +35,8 @@ urlpatterns = [
 
     # 更新净值
     path('update_jz/',delivery_views.jingzhi),
+    path('blacklist/',delivery_views.blacklist),
+    path('query_blacklist/',delivery_views.query_blacklist),
 
 ]
 
