@@ -29,7 +29,7 @@ def query_post_json(request):
 
     for obj in objs:
         d = obj.成交日期
-        d_format = d.strftime('%Y-%m-%d')
+        d_format = d.strftime('%Y-%m-%d %H:%M:%S')
         result.append([d_format, obj.证券名称, obj.成交均价, obj.成交金额, obj.成交数量, obj.操作])
     if not result:
         result = []
@@ -56,9 +56,9 @@ def jingzhi(request):
     profit = round(profit, 2)
     netvalue = round(money / 60000, 4)
     obj, ret = TbJingzhi.objects.get_or_create(date=current, assert_field=money, profit=profit, netvalue=netvalue)
-
+    raise_value = round((netvalue-1),2)*100
     if ret:
-        resp = {'status': 1}
+        resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value}
     else:
         resp = {'status': 0}
     return JsonResponse(resp, safe=False)
