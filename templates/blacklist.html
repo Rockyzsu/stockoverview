@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+
+    <!-- CSS goes in the document HEAD or added to your external stylesheet -->
+    <style type="text/css">
+        table.gridtable {
+            font-family: verdana, arial, sans-serif;
+            font-size: 15px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+
+        table.gridtable th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+
+        table.gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+                $.getJSON(
+                    '/query_blacklist/',
+                    {},
+                    function (ret) {
+                        var tb_content = $('table#kzz_tb');
+                        $('tr.rows').remove();
+                        for (var i = 0; i <= ret.length - 1; i++) {
+                            var tr = document.createElement('tr');
+                            tr.setAttribute('class', 'rows');
+                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>';
+                            tb_content.append(tr);
+
+                        }
+
+                    },
+                );
+
+
+        });
+    </script>
+
+</head>
+
+<body>
+<table id="kzz_tb" class="gridtable" border="1px" align="center">
+    <caption id="cap">{{ title }}</caption>
+    <tr id="row_name_json">
+        <th>日期</th>
+        <th>证券代码</th>
+        <th>证券名称</th>
+        <th>拉黑原因</th>
+    </tr>
+
+</table>
+</body>
+</html>
