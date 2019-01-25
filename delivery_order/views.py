@@ -35,6 +35,27 @@ def query_post_json(request):
         result = []
     return JsonResponse(result, safe=False)
 
+def query_win(request):
+    name = request.GET.get('name')
+    # 根据名称模糊查询
+
+    objs = TbDeliveryGjDjango.objects.all().filter(证券名称__contains=name).order_by('-成交日期')
+    result = []
+    sum = 0
+    for obj in objs:
+        d = obj.成交日期
+        d_format = d.strftime('%Y-%m-%d %H:%M:%S')
+        result.append([d_format, obj.证券名称, obj.成交均价, obj.成交金额, obj.成交数量, obj.操作])
+        p=obj.成交均价*obj.成交数量
+        sum+=p
+
+    if not result:
+        result = []
+    sum=round(sum*-1,2)
+    result.append(['总盈亏','*','*','*','*',sum])
+    print(sum)
+    return JsonResponse(result, safe=False)
+
 
 def jingzhi_view(request):
     return render(request, 'jingzhi.html')

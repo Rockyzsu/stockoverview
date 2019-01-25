@@ -60,6 +60,39 @@
                 );
 
             });
+
+
+
+            $("#btn_win").click(function () {
+                var name = $("#input_name_post_json").val();
+                console.log(name);
+
+                $.getJSON(
+                    '/post_win/',
+                    {'name': name},
+                    function (ret) {
+                        var tb_content = $('table#kzz_tb');
+                        $('tr.rows').remove();
+                        $("#cap").text(ret[0][1]);
+                        for (var i = 0; i <= ret.length - 1; i++) {
+                            var tr = document.createElement('tr');
+                            tr.setAttribute('class', 'rows');
+
+                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>' + '<td>' + ret[i][4] + '</td>' + '<td>' + ret[i][5] + '</td>';
+                            tb_content.append(tr);
+                        }
+                        {##}
+                        {#var tr2 = document.createElement('tr');#}
+                        {#tr2.setAttribute('class', 'rows');#}
+                        {##}
+                        {#tr2.innerText = '<td>' + '总盈亏' + '</td>' + '<td>' + '*' + '</td>' + '<td>' + '*' + '</td>' + '<td>' + '*' + '</td>' + '<td>' + '*' + '</td>' + '<td>' + ret[ret.length-1] + '</td>';#}
+                        {#tb_content.append(tr2);#}
+
+                    },
+                );
+
+            });
+
         });
     </script>
 </head>
@@ -74,8 +107,9 @@
 <div align="center">
     <input id="input_name_post_json" type="text" align="center">
 
-    <button type="button" id="btn_post_json">查询</button>
-    <p>返回结果</p>
+    <button type="button" id="btn_post_json">查询交割历史</button>
+    <button type="button" id="btn_win">计算盈亏</button>
+    <p><br></p>
 </div>
 <table id="kzz_tb" class="gridtable" border="1px" align="center">
     <caption id="cap"></caption>

@@ -30,6 +30,7 @@ urlpatterns = [
     path('jgd',delivery_views.delivery_order_view),
 
     path('query_post_json/',delivery_views.query_post_json),
+    path('post_win/',delivery_views.query_win),
 
     path('jz/',delivery_views.jingzhi_view),
 
