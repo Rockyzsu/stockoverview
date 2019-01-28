@@ -84,7 +84,7 @@ def jingzhi(request):
     obj, ret = TbJingzhi.objects.get_or_create(date=current, assert_field=money, profit=profit, netvalue=netvalue,hs300=hs_latest)
     raise_value = round((netvalue-1),2)*100
     if ret:
-        resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value}
+        resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value,'hs_latest':hs_latest}
     else:
         resp = {'status': 0}
     return JsonResponse(resp, safe=False)

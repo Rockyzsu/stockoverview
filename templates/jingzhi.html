@@ -45,7 +45,7 @@
 
                         alert('更新成功');
                         console.log(json);
-                        $("#jz_content").text("当前净值：" + json['netvalue'] + ' ;    ' + '收益率：' + json['raise_value'] + '\%'+'沪深300净值:'+json['hs300']);
+                        $("#jz_content").text("当前净值：" + json['netvalue'] + ' ;    ' + '收益率：' + json['raise_value'] + '\%'+'沪深300净值:'+json['hs_latest']);
                     },
                     error: function () {
                         alert('更新失败');
