@@ -486,7 +486,7 @@ class TbJingzhi(models.Model):
     assert_field = models.FloatField(db_column='Assert', blank=True, null=True)  # Field name made lowercase. Field renamed because it was a Python reserved word.
     netvalue = models.FloatField(db_column='NetValue', blank=True, null=True)  # Field name made lowercase.
     profit = models.FloatField(db_column='Profit', blank=True, null=True)  # Field name made lowercase.
-
+    hs300 = models.FloatField(db_column='HS300', blank=True, null=True)  # Field name made lowercase.
     class Meta:
         managed = False
         db_table = 'tb_jingzhi'

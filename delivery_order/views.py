@@ -64,7 +64,12 @@ def jingzhi_view(request):
 @csrf_exempt
 def jingzhi(request):
     money = request.POST.get('money')
+    import tushare as ts
+    start_value = 3094.78
     current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+    df = ts.get_index()
+    current_v = df[df['code']=='000300']['close'].values[0]
+    hs_latest = round(current_v/start_value,4)
     obj = TbJingzhi.objects.all().order_by('-date')
     last_day_assert = obj[0].assert_field
     try:
@@ -76,7 +81,7 @@ def jingzhi(request):
     profit = (money - last_day_assert) / last_day_assert * 100
     profit = round(profit, 2)
     netvalue = round(money / 60000, 4)
-    obj, ret = TbJingzhi.objects.get_or_create(date=current, assert_field=money, profit=profit, netvalue=netvalue)
+    obj, ret = TbJingzhi.objects.get_or_create(date=current, assert_field=money, profit=profit, netvalue=netvalue,hs300=hs_latest)
     raise_value = round((netvalue-1),2)*100
     if ret:
         resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value}
@@ -103,3 +108,18 @@ def query_blacklist(request):
     if not result:
         result = []
     return JsonResponse(result, safe=False)
+
+def get_jz(request):
+    # current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+    objs = TbJingzhi.objects.all().order_by('-date')
+    ret = []
+    for obj in objs:
+        ret.append([obj.date.strftime('%Y-%m-%d'),obj.assert_field,obj.netvalue,obj.profit,obj.hs300])
+
+    if ret:
+        resp = ret
+    else:
+        resp = None
+    print(resp)
+
+    return JsonResponse(resp, safe=False)

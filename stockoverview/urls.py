@@ -38,6 +38,7 @@ urlpatterns = [
     path('update_jz/',delivery_views.jingzhi),
     path('blacklist/',delivery_views.blacklist),
     path('query_blacklist/',delivery_views.query_blacklist),
+    path('get_jz/',delivery_views.get_jz),
 
 ]
 
