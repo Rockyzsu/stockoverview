@@ -40,6 +40,10 @@ urlpatterns = [
     path('query_blacklist/',delivery_views.query_blacklist),
     path('get_jz/',delivery_views.get_jz),
 
+    #行情
+    path('hq/',monitor_views.hangqing),
+    path('hq_index/',monitor_views.hangqing_index),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

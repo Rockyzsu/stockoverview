@@ -1,0 +1,137 @@
+<!doctype html>
+  <style>
+	.table-title{
+		background: #F5FFFA;
+	}
+	.double_row_bkcolor0{
+		background: #EAEAEA;
+	}
+	table{
+		border:1;
+		border-collapse:collapse;
+	}
+/*
+	table tr td{
+		text-align:right;
+	}
+*/
+	.font-red-bold{
+		color:red;
+		font-weight:bold;
+	}
+	.font-green-bold{
+		color:green;
+		font-weight:bold;
+	}
+	.font-bold{
+		font-weight:bold;
+	}
+	.font-red{
+		color:red;
+	}
+	.font-green{
+		color:green;
+	}
+	.font-blue{
+		color:blue;
+	}
+  </style>
+<title>{{stockno}}</title>
+<body bgcolor="black">
+
+<input type='text' id='hidstockno' style="display:none" value='{{stockinfo.code}}'>
+<input type='text' id='hidstockname' style="display:none" value='{{stockinfo.name}}'>
+<div id='roomid'>
+<font size='4' color ='gray'>{{stockinfo.name}}({{stockinfo.code}})</font>
+&nbsp;<font size='2' color ='gray'>昨收：{{stockinfo.close}}</font>
+</div>
+<div id='match'>
+    <font size='5' color ='gray' class = "{{stockinfo.涨跌_css}}">{{stockinfo.now}}</font>
+    &nbsp;<font  color ='gray' class = "{{stockinfo.涨跌_css}}">{{stockinfo.涨跌}}</font>&nbsp;
+    &nbsp;<font  color ='gray' class = "{{stockinfo.涨跌_css}}">{{stockinfo.zdf}}</font><font size='2' color ='gray'>%</font>&nbsp;&nbsp;<font size='2' color ='gray'>{{stockinfo.datetime}}</font>
+</div>
+<!--<div id='time'>{{stockinfo.datetime}}&nbsp;</div>-->
+
+<table border='0' style='border-collapse:collapse'>
+    <tr>
+        <td width='50' align='left'><font  color ='gray' >买一</font></td>
+        {% if stockinfo.bid1 > stockinfo.close %}
+            <td width='60' align='left'><font color="red"><b>{{stockinfo.bid1}}</b></font></td>
+        {% else %}
+            <td width='60' align='left'><font color="green"><b>{{stockinfo.bid1}}</b></font></td>
+        {% endif %}
+        <td width='60' align='right'><font  color ='gray' >{{stockinfo.bid1_volume}}&nbsp;</td>
+		 <td width='50' align='left'><font  color ='gray' >卖一</font></td>
+        {% if stockinfo.ask1 > stockinfo.close %}
+    		 <td width='60' align='left'><font color='red'><b>{{stockinfo.ask1}}</b></font></td>
+        {% else %}
+    		 <td width='60' align='left'><font color='green'><b>{{stockinfo.ask1}}</b></font></td>
+        {% endif %}
+		 <td width='60' align='right'><font  color ='gray' >{{stockinfo.ask1_volume}}</font>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width='50' align='left'><font  color ='gray' >买二</font></td>
+        {% if stockinfo.bid2 > stockinfo.close %}
+            <td width='60' align='left'><font color="red"><b>{{stockinfo.bid2}}</b></font></td>
+        {% else %}
+            <td width='60' align='left'><font color="green"><b>{{stockinfo.bid2}}</b></font></td>
+        {% endif %}
+        <td width='60' align='right'><font  color ='gray' >{{stockinfo.bid2_volume}}</font>&nbsp;</td>
+		 <td width='50' align='left'><font  color ='gray' >卖二</font></td>
+        {% if stockinfo.ask2 > stockinfo.close %}
+    		 <td width='60' align='left'><font color='red'><b>{{stockinfo.ask2}}</b></font></td>
+        {% else %}
+    		 <td width='60' align='left'><font color='green'><b>{{stockinfo.ask2}}</b></font></td>
+        {% endif %}
+		 <td width='60' align='right'><font  color ='gray' >{{stockinfo.ask2_volume}}</font>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width='50' align='left'><font  color ='gray' >买三</font></td>
+        {% if stockinfo.bid3 > stockinfo.close %}
+            <td width='60' align='left'><font color="red"><b>{{stockinfo.bid3}}</b></font></td>
+        {% else %}
+            <td width='60' align='left'><font color="green"><b>{{stockinfo.bid3}}</b></font></td>
+        {% endif %}
+        <td width='60' align='right'><font  color ='gray' >{{stockinfo.bid3_volume}}</font>&nbsp;</td>
+		 <td width='50' align='left'><font  color ='gray' >卖三</font></td>
+        {% if stockinfo.ask3 > stockinfo.close %}
+    		 <td width='60' align='left'><font color='red'><b>{{stockinfo.ask3}}</b></font></td>
+        {% else %}
+    		 <td width='60' align='left'><font color='green'><b>{{stockinfo.ask3}}</b></font></td>
+        {% endif %}
+		 <td width='60' align='right'><font  color ='gray' >{{stockinfo.ask3_volume}}</font>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width='50' align='left'><font  color ='gray' >买四</font></td>
+        {% if stockinfo.bid4 > stockinfo.close %}
+            <td width='60' align='left'><font color="red"><b>{{stockinfo.bid4}}</b></font></td>
+        {% else %}
+            <td width='60' align='left'><font color="green"><b>{{stockinfo.bid4}}</b></font></td>
+        {% endif %}
+        <td width='60' align='right'><font  color ='gray' >{{stockinfo.bid4_volume}}</font>&nbsp;</td>
+		 <td width='50' align='left'><font  color ='gray' >卖四</font></td>
+        {% if stockinfo.ask4 > stockinfo.close %}
+    		 <td width='60' align='left'><font color='red'><b>{{stockinfo.ask4}}</b></font></td>
+        {% else %}
+    		 <td width='60' align='left'><font color='green'><b>{{stockinfo.ask4}}</b></font></td>
+        {% endif %}
+		 <td width='60' align='right'><font  color ='gray' >{{stockinfo.ask4_volume}}</font>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width='50' align='left'><font  color ='gray' >买五</font></td>
+        {% if stockinfo.bid5 > stockinfo.close %}
+            <td width='60' align='left'><font color="red"><b>{{stockinfo.bid5}}</b></font></td>
+        {% else %}
+            <td width='60' align='left'><font color="green"><b>{{stockinfo.bid5}}</b></font></td>
+        {% endif %}
+        <td width='60' align='right'><font  color ='gray' >{{stockinfo.bid5_volume}}</font>&nbsp;</td>
+		 <td width='50' align='left'><font  color ='gray' >卖五</font></td>
+        {% if stockinfo.ask5 > stockinfo.close %}
+    		 <td width='60' align='left'><font color='red'><b>{{stockinfo.ask5}}</b></font></td>
+        {% else %}
+    		 <td width='60' align='left'><font color='green'><b>{{stockinfo.ask5}}</b></font></td>
+        {% endif %}
+		 <td width='60' align='right'><font  color ='gray' >{{stockinfo.ask5_volume}}</font>&nbsp;</td>
+    </tr>
+</table>
+</body>

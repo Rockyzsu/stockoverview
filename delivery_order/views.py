@@ -53,7 +53,7 @@ def query_win(request):
         result = []
     sum=round(sum*-1,2)
     result.append(['总盈亏','*','*','*','*',sum])
-    print(sum)
+    # print(sum)
     return JsonResponse(result, safe=False)
 
 
@@ -120,6 +120,6 @@ def get_jz(request):
         resp = ret
     else:
         resp = None
-    print(resp)
+    # print(resp)
 
     return JsonResponse(resp, safe=False)
