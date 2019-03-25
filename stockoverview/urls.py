@@ -43,6 +43,8 @@ urlpatterns = [
     #行情
     path('hq/',monitor_views.hangqing),
     path('hq_index/',monitor_views.hangqing_index),
+    path('update/',monitor_views.update_stock),
+    path('hq_ajax/',monitor_views.hangqing_ajax),
 
 ]
 
