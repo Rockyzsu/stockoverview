@@ -51,7 +51,7 @@
                             var tr = document.createElement('tr');
                             tr.setAttribute('class', 'rows');
                             $("#cap").text(ret[i][1]);
-                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>' + '<td>' + ret[i][4] + '</td>' + '<td>' + ret[i][5] + '</td>';
+                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>' + '<td>' + ret[i][4] + '</td>' + '<td>' + ret[i][5] + '</td>'+'<td>' + ret[i][6] + '</td>';
                             tb_content.append(tr);
 
                         }
@@ -78,7 +78,7 @@
                             var tr = document.createElement('tr');
                             tr.setAttribute('class', 'rows');
 
-                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>' + '<td>' + ret[i][4] + '</td>' + '<td>' + ret[i][5] + '</td>';
+                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>' + '<td>' + ret[i][4] + '</td>' + '<td>' + ret[i][5] + '</td>'+'<td>' + ret[i][6] + '</td>';
                             tb_content.append(tr);
                         }
                         {##}
@@ -116,6 +116,7 @@
     <tr id="row_name_json">
         <th>日期</th>
         <th>名称</th>
+        <th>代码</th>
         <th>价格</th>
         <th>成交金额</th>
         <th>数量</th>

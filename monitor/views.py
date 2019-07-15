@@ -1,6 +1,8 @@
 import datetime
 import json
 import re
+import time
+
 import redis
 import tushare as ts
 from django.shortcuts import render, render_to_response
@@ -10,7 +12,7 @@ from stockoverview import config
 import pymysql
 
 redis_server = redis.StrictRedis(config.redis,decode_responses=True,db=10)
-
+codelist={}
 # Create your views here.
 
 def index(request):
@@ -40,6 +42,7 @@ class CJsonEncoder(json.JSONEncoder):
 
 # 行情
 def hangqing(request):
+    start=time.time()
     args = request.GET.get('code')
     # 区分代码还是名称
     if re.search('\d{6}',args):
@@ -51,6 +54,7 @@ def hangqing(request):
     stockinfox = stockinfo[list(stockinfo.keys())[0]]
     stockinfox['datetime']=stockinfox['datetime'].strftime('%H:%M:%S')
     stockinfox['zdf']=stockinfox['涨跌(%)']
+    print('call time use {} ms'.format((time.time()-start)*1000))
     return render_to_response('hangqing_sub.html', {'stockinfo': stockinfox})
 
 # ajax

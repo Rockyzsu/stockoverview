@@ -30,7 +30,7 @@ def query_post_json(request):
     for obj in objs:
         d = obj.成交日期
         d_format = d.strftime('%Y-%m-%d %H:%M:%S')
-        result.append([d_format, obj.证券名称, obj.成交均价, obj.成交金额, obj.成交数量, obj.操作])
+        result.append([d_format, obj.证券名称, obj.证券代码,obj.成交均价, obj.成交金额, obj.成交数量, obj.操作])
     if not result:
         result = []
     return JsonResponse(result, safe=False)
@@ -45,14 +45,14 @@ def query_win(request):
     for obj in objs:
         d = obj.成交日期
         d_format = d.strftime('%Y-%m-%d %H:%M:%S')
-        result.append([d_format, obj.证券名称, obj.成交均价, obj.成交金额, obj.成交数量, obj.操作])
+        result.append([d_format, obj.证券名称, obj.证券代码,obj.成交均价, obj.成交金额, obj.成交数量, obj.操作])
         p=obj.成交均价*obj.成交数量
         sum+=p
 
     if not result:
         result = []
     sum=round(sum*-1,2)
-    result.append(['总盈亏','*','*','*','*',sum])
+    result.append(['总盈亏','*','*','*','*','*',sum])
     # print(sum)
     return JsonResponse(result, safe=False)
 
@@ -82,7 +82,7 @@ def jingzhi(request):
     profit = round(profit, 2)
     netvalue = round(money / 60000, 4)
     obj, ret = TbJingzhi.objects.get_or_create(date=current, assert_field=money, profit=profit, netvalue=netvalue,hs300=hs_latest)
-    raise_value = round((netvalue-1),2)*100
+    raise_value = round((netvalue-1)*100,2)
     if ret:
         resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value,'hs_latest':hs_latest}
     else:
