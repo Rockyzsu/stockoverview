@@ -22,7 +22,11 @@ def delivery_order_view(request):
 
 def query_post_json(request):
     name = request.GET.get('name')
+    if name is None:
+        return JsonResponse([], safe=False)
+
     # 根据名称模糊查询
+    name = name.strip()
 
     objs = TbDeliveryGjDjango.objects.all().filter(证券名称__contains=name).order_by('-成交日期')
     result = []
