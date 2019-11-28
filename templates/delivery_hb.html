@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>国金交割单查询</title>
+    <title>华宝交割单查询</title>
     <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
 
     <!-- CSS goes in the document HEAD or added to your external stylesheet -->
@@ -42,7 +42,7 @@
                 console.log(name);
 
                 $.getJSON(
-                    '/query_post_json/',
+                    '/query_post_json_hb/',
                     {'name': name},
                     function (ret) {
                         var tb_content = $('table#kzz_tb');
@@ -99,7 +99,7 @@
 <body>
 <div align="center">
     <p><b>交割单查询页面</b></p>
-    <p><b>国金账号</b></p>
+    <p><b>华宝账号</b></p>
 
 </div>
 

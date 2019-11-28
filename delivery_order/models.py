@@ -512,6 +512,24 @@ class TbDeliveryGjDjango(models.Model):
         managed = False
         db_table = 'tb_delivery_gj_django'
 
+class TbDeliveryHbDjango(models.Model):
+    成交日期 = models.DateTimeField(blank=True, null=True)
+    证券代码 = models.TextField(blank=True, null=True)
+    证券名称 = models.TextField(blank=True, null=True)
+    委托类别 = models.TextField(blank=True, null=True)
+    成交数量 = models.FloatField(blank=True, null=True)
+    成交价格 = models.FloatField(blank=True, null=True)
+    成交金额 = models.FloatField(blank=True, null=True)
+    发生金额 = models.FloatField(blank=True, null=True)
+    佣金 = models.FloatField(blank=True, null=True)
+    印花税 = models.FloatField(blank=True, null=True)
+    过户费 = models.FloatField(blank=True, null=True)
+    本次金额 = models.TextField(blank=True, null=True)
+    其他费 = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_delivery_hb_django'
 
 class TbNewStockBond(models.Model):
     level_0 = models.BigIntegerField(blank=True, null=True)

@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db_stock',  # 连接的数据库名
         'HOST': config.mysql_host,
-        'PORT': '3306',
+        'PORT': 3306,
         'USER': 'root',
         'PASSWORD': config.mysql_password,
     }
@@ -127,7 +127,6 @@ pymysql.install_as_MySQLdb()
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-# STATIC_URL = '/static/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),

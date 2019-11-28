@@ -28,8 +28,10 @@ urlpatterns = [
 
     # 交割单
     path('jgd',delivery_views.delivery_order_view),
+    path('jgd_hb',delivery_views.delivery_order_hb_view),
 
     path('query_post_json/',delivery_views.query_post_json),
+    path('query_post_json_hb/',delivery_views.query_post_json_hb),
     path('post_win/',delivery_views.query_win),
 
     path('jz/',delivery_views.jingzhi_view),

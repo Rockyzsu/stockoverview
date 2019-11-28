@@ -4,7 +4,7 @@ import json
 from django.shortcuts import render
 from delivery_order.models import NameForms
 from django.http import HttpResponse, JsonResponse
-from delivery_order.models import TbDeliveryGjDjango, TbJingzhi, TbBlacklist
+from delivery_order.models import TbDeliveryGjDjango, TbJingzhi, TbBlacklist,TbDeliveryHbDjango
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
@@ -16,6 +16,12 @@ from django.utils import timezone
 def delivery_order_view(request):
     if request.method == 'GET':
         return render(request, 'delivery.html')
+    else:
+        return HttpResponse('非法请求')
+
+def delivery_order_hb_view(request):
+    if request.method == 'GET':
+        return render(request, 'delivery_hb.html')
     else:
         return HttpResponse('非法请求')
 
@@ -35,6 +41,25 @@ def query_post_json(request):
         d = obj.成交日期
         d_format = d.strftime('%Y-%m-%d %H:%M:%S')
         result.append([d_format, obj.证券名称, obj.证券代码,obj.成交均价, obj.成交金额, obj.成交数量, obj.操作])
+    if not result:
+        result = []
+    return JsonResponse(result, safe=False)
+
+def query_post_json_hb(request):
+    name = request.GET.get('name')
+    if name is None:
+        return JsonResponse([], safe=False)
+
+    # 根据名称模糊查询
+    name = name.strip()
+
+    objs = TbDeliveryHbDjango.objects.all().filter(证券名称__contains=name).order_by('-成交日期')
+    result = []
+
+    for obj in objs:
+        d = obj.成交日期
+        d_format = d.strftime('%Y-%m-%d %H:%M:%S')
+        result.append([d_format, obj.证券名称, obj.证券代码,obj.成交价格, obj.成交金额, obj.成交数量, obj.委托类别])
     if not result:
         result = []
     return JsonResponse(result, safe=False)
