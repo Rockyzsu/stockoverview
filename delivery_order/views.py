@@ -4,7 +4,7 @@ import json
 from django.shortcuts import render
 from delivery_order.models import NameForms
 from django.http import HttpResponse, JsonResponse
-from delivery_order.models import TbDeliveryGjDjango, TbJingzhi, TbBlacklist,TbDeliveryHbDjango
+from delivery_order.models import TbDeliveryGjDjango, TbJingzhi2019,TbJingzhi2020, TbBlacklist,TbDeliveryHbDjango,TbJingzhiHB2020
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
@@ -86,36 +86,111 @@ def query_win(request):
     return JsonResponse(result, safe=False)
 
 
-def jingzhi_view(request):
-    return render(request, 'jingzhi.html')
+def jingzhi_view_gj(request,year):
+    print(year)
+    return render(request, 'jingzhi.html',{'year':year})
+
+def jingzhi_view_hb(request,year):
+    print(year)
+    return render(request, 'jingzhi_hb.html',{'year':year})
 
 
 @csrf_exempt
 def jingzhi(request):
     money = request.POST.get('money')
-    import tushare as ts
-    start_value = 3094.78
-    current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-    df = ts.get_index()
-    current_v = df[df['code']=='000300']['close'].values[0]
-    hs_latest = round(current_v/start_value,4)
-    obj = TbJingzhi.objects.all().order_by('-date')
-    last_day_assert = obj[0].assert_field
-    try:
-        money = float(money)
-    except Exception as e:
-        resp = {'status': 0}
-        return JsonResponse(resp, safe=False)
+    year = request.POST.get('year')
 
-    profit = (money - last_day_assert) / last_day_assert * 100
-    profit = round(profit, 2)
-    netvalue = round(money / 60000, 4)
-    obj, ret = TbJingzhi.objects.get_or_create(date=current, assert_field=money, profit=profit, netvalue=netvalue,hs300=hs_latest)
-    raise_value = round((netvalue-1)*100,2)
+    import tushare as ts
+
+    if year=='2019':
+
+        start_value = 3094.78
+        current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+        df = ts.get_index()
+        current_v = df[df['code']=='000300']['close'].values[0]
+        hs_latest = round(current_v/start_value,4)
+
+        obj = TbJingzhi2019.objects.all().order_by('-date')
+        last_day_assert = obj[0].assert_field
+        try:
+            money = float(money)
+        except Exception as e:
+            resp = {'status': 0}
+            return JsonResponse(resp, safe=False)
+
+        profit = (money - last_day_assert) / last_day_assert * 100
+        profit = round(profit, 2)
+        netvalue = round(money / 60000, 4)
+        obj, ret = TbJingzhi2019.objects.get_or_create(date=current, assert_field=money, profit=profit, netvalue=netvalue,hs300=hs_latest)
+        raise_value = round((netvalue-1)*100,2)
+
+    elif year=='2020':
+
+        start_value = 4096.58
+        current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+        df = ts.get_index()
+        current_v = df[df['code'] == '000300']['close'].values[0]
+        hs_latest = round(current_v / start_value, 4)
+
+        obj = TbJingzhi2020.objects.all().order_by('-date')
+        last_day_assert = obj[0].assert_field
+
+        try:
+            money = float(money)
+        except Exception as e:
+            resp = {'status': 0}
+            return JsonResponse(resp, safe=False)
+
+        profit = (money - last_day_assert) / last_day_assert * 100
+        profit = round(profit, 2)
+        netvalue = round(money / 150000, 4)
+        obj, ret = TbJingzhi2020.objects.get_or_create(date=current, assert_field=money, profit=profit,
+                                                       netvalue=netvalue, hs300=hs_latest)
+        raise_value = round((netvalue - 1) * 100, 2)
+
     if ret:
         resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value,'hs_latest':hs_latest}
     else:
         resp = {'status': 0}
+
+    return JsonResponse(resp, safe=False)
+
+@csrf_exempt
+def jingzhi_hb(request):
+    money = request.POST.get('money')
+    year = request.POST.get('year')
+
+    import tushare as ts
+
+    if year=='2020':
+
+        start_value = 4096.58
+        current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+        df = ts.get_index()
+        current_v = df[df['code'] == '000300']['close'].values[0]
+        hs_latest = round(current_v / start_value, 4)
+
+        obj = TbJingzhiHB2020.objects.all().order_by('-date')
+        last_day_assert = obj[0].assert_field
+
+        try:
+            money = float(money)
+        except Exception as e:
+            resp = {'status': 0}
+            return JsonResponse(resp, safe=False)
+
+        profit = (money - last_day_assert) / last_day_assert * 100
+        profit = round(profit, 2)
+        netvalue = round(money / 60000, 4)
+        obj, ret = TbJingzhiHB2020.objects.get_or_create(date=current, assert_field=money, profit=profit,
+                                                       netvalue=netvalue, hs300=hs_latest)
+        raise_value = round((netvalue - 1) * 100, 2)
+
+    if ret:
+        resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value,'hs_latest':hs_latest}
+    else:
+        resp = {'status': 0}
+
     return JsonResponse(resp, safe=False)
 
 
@@ -138,9 +213,32 @@ def query_blacklist(request):
         result = []
     return JsonResponse(result, safe=False)
 
-def get_jz(request):
+def get_jz(request,year):
     # current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-    objs = TbJingzhi.objects.all().order_by('-date')
+    if year=='2019':
+        objs = TbJingzhi2019.objects.all().order_by('-date')
+    elif year=='2020':
+        objs = TbJingzhi2020.objects.all().order_by('-date')
+    else:
+        print('obj not exists')
+    ret = []
+    for obj in objs:
+        ret.append([obj.date.strftime('%Y-%m-%d'),obj.assert_field,obj.netvalue,obj.profit,obj.hs300])
+
+    if ret:
+        resp = ret
+    else:
+        resp = None
+    # print(resp)
+
+    return JsonResponse(resp, safe=False)
+
+def get_jz_hb(request,year):
+    # current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+    if year=='2020':
+        objs = TbJingzhiHB2020.objects.all().order_by('-date')
+    else:
+        print('obj not exists')
     ret = []
     for obj in objs:
         ret.append([obj.date.strftime('%Y-%m-%d'),obj.assert_field,obj.netvalue,obj.profit,obj.hs300])

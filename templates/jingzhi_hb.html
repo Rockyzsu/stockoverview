@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ year }} 国金净值录入</title>
+    <title>{{ year }} 华宝净值录入</title>
     <style type="text/css">
         table.gridtable {
             font-family: verdana, arial, sans-serif;
@@ -39,7 +39,7 @@
                 year_={{ year }};
 
                 $.ajax({
-                    url: '/update_jz/',
+                    url: '/update_jz_hb/',
                     type: 'POST',
                     data: {money: totals,year:year_,csrfmiddlewaretoken: '{{ csrf_token }}'},
                     dataType: 'json',
@@ -59,7 +59,7 @@
 
             $("#check_jz").click(function () {
                 year={{ year }};
-                url='/get_jz/'+year;
+                url='/get_jz_hb/'+year;
                 $.get(
                     url,
                     {},
@@ -84,7 +84,7 @@
 </head>
 <body>
 <div align="center">
-    <p>{{ year }} 国金净值记录</p>
+    <p>{{ year }} 华宝净值记录</p>
     输入今日资产：<input type="text" id="btn_money">
     <button type="button" id="record">录入</button>
 </div>

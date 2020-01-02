@@ -34,13 +34,17 @@ urlpatterns = [
     path('query_post_json_hb/',delivery_views.query_post_json_hb),
     path('post_win/',delivery_views.query_win),
 
-    path('jz/',delivery_views.jingzhi_view),
+    path('jz_gj/<int:year>',delivery_views.jingzhi_view_gj),
+    path('jz_hb/<int:year>',delivery_views.jingzhi_view_hb),
+    # path('jz_gj/2020/',delivery_views.jingzhi_view),
 
     # 更新净值
     path('update_jz/',delivery_views.jingzhi),
+    path('update_jz_hb/',delivery_views.jingzhi_hb),
     path('blacklist/',delivery_views.blacklist),
     path('query_blacklist/',delivery_views.query_blacklist),
-    path('get_jz/',delivery_views.get_jz),
+    path('get_jz/<str:year>',delivery_views.get_jz),
+    path('get_jz_hb/<str:year>',delivery_views.get_jz_hb),
 
     #行情
     path('hq/',monitor_views.hangqing),

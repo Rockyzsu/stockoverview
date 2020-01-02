@@ -481,7 +481,7 @@ class TbCurrentHold(models.Model):
         managed = False
         db_table = 'tb_current_hold'
 
-class TbJingzhi(models.Model):
+class TbJingzhi2019(models.Model):
     date = models.DateTimeField(db_column='Date', blank=True, null=True)  # Field name made lowercase.
     assert_field = models.FloatField(db_column='Assert', blank=True, null=True)  # Field name made lowercase. Field renamed because it was a Python reserved word.
     netvalue = models.FloatField(db_column='NetValue', blank=True, null=True)  # Field name made lowercase.
@@ -489,7 +489,27 @@ class TbJingzhi(models.Model):
     hs300 = models.FloatField(db_column='HS300', blank=True, null=True)  # Field name made lowercase.
     class Meta:
         managed = False
-        db_table = 'tb_jingzhi'
+        db_table = 'tb_jingzhi_gj_2019'
+
+class TbJingzhi2020(models.Model):
+    date = models.DateTimeField(db_column='Date', blank=True, null=True)  # Field name made lowercase.
+    assert_field = models.FloatField(db_column='Assert', blank=True, null=True)  # Field name made lowercase. Field renamed because it was a Python reserved word.
+    netvalue = models.FloatField(db_column='NetValue', blank=True, null=True)  # Field name made lowercase.
+    profit = models.FloatField(db_column='Profit', blank=True, null=True)  # Field name made lowercase.
+    hs300 = models.FloatField(db_column='HS300', blank=True, null=True)  # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'tb_jingzhi_gj_2020'
+
+class TbJingzhiHB2020(models.Model):
+    date = models.DateTimeField(db_column='Date', blank=True, null=True)  # Field name made lowercase.
+    assert_field = models.FloatField(db_column='Assert', blank=True, null=True)  # Field name made lowercase. Field renamed because it was a Python reserved word.
+    netvalue = models.FloatField(db_column='NetValue', blank=True, null=True)  # Field name made lowercase.
+    profit = models.FloatField(db_column='Profit', blank=True, null=True)  # Field name made lowercase.
+    hs300 = models.FloatField(db_column='HS300', blank=True, null=True)  # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'tb_jingzhi_hb_2020'
 
 class TbDeliveryGjDjango(models.Model):
     成交日期 = models.DateTimeField(blank=True, null=True)
