@@ -82,10 +82,10 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_stock',  # 连接的数据库名
+        'NAME': config.mysql_db,  # 连接的数据库名
         'HOST': config.mysql_host,
-        'PORT': 3306,
-        'USER': 'root',
+        'PORT': config.mysql_port,
+        'USER': config.mysql_user,
         'PASSWORD': config.mysql_password,
     }
 }
