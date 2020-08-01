@@ -11,7 +11,10 @@ import easyquotation
 from stockoverview import config
 import pymysql
 
-redis_server = redis.StrictRedis(config.redis,decode_responses=True,db=10)
+redis_server = redis.StrictRedis(config.redis_host,
+                                 decode_responses=True,
+                                 db=config.redis_db,
+                                 password=config.redis_password)
 codelist={}
 # Create your views here.
 
