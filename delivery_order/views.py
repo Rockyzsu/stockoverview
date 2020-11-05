@@ -40,7 +40,7 @@ def query_post_json(request):
     for obj in objs:
         d = obj.成交日期
         d_format = d.strftime('%Y-%m-%d %H:%M:%S')
-        result.append([d_format, obj.证券名称, obj.证券代码,obj.成交均价, obj.成交金额, obj.成交数量, obj.操作])
+        result.append([d_format, obj.证券名称, obj.证券代码,round(obj.成交均价,2), obj.成交金额, obj.成交数量, obj.操作])
     if not result:
         result = []
     return JsonResponse(result, safe=False)
@@ -59,7 +59,7 @@ def query_post_json_hb(request):
     for obj in objs:
         d = obj.成交日期
         d_format = d.strftime('%Y-%m-%d %H:%M:%S')
-        result.append([d_format, obj.证券名称, obj.证券代码,obj.成交价格, obj.成交金额, obj.成交数量, obj.委托类别])
+        result.append([d_format, obj.证券名称, obj.证券代码,round(obj.成交价格,2, obj.成交金额, obj.成交数量, obj.委托类别])
     if not result:
         result = []
     return JsonResponse(result, safe=False)
