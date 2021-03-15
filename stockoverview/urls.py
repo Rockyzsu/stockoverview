@@ -21,19 +21,14 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('',monitor_views.index),
-
     path('monitor',monitor_views.monitor),
-
     # 交割单
     path('jgd',delivery_views.delivery_order_view),
     path('jgd_hb',delivery_views.delivery_order_hb_view),
-
     path('query_post_json/',delivery_views.query_post_json),
     path('query_post_json_hb/',delivery_views.query_post_json_hb),
     path('post_win/',delivery_views.query_win),
-
     path('jz_gj/<int:year>',delivery_views.jingzhi_view_gj),
     path('jz_hb/<int:year>',delivery_views.jingzhi_view_hb),
     # path('jz_gj/2020/',delivery_views.jingzhi_view),

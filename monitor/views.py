@@ -5,13 +5,15 @@ import time
 
 import redis
 import tushare as ts
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import easyquotation
 from stockoverview import config
 import pymysql
 
-redis_server = redis.StrictRedis(config.redis_host,
+
+redis_server = redis.StrictRedis(host=config.redis_host,
+                                 port=config.redis_port,
                                  decode_responses=True,
                                  db=config.redis_db,
                                  password=config.redis_password)
@@ -58,7 +60,7 @@ def hangqing(request):
     stockinfox['datetime']=stockinfox['datetime'].strftime('%H:%M:%S')
     stockinfox['zdf']=stockinfox['涨跌(%)']
     print('call time use {} ms'.format((time.time()-start)*1000))
-    return render_to_response('hangqing_sub.html', {'stockinfo': stockinfox})
+    return render(request,'hangqing_sub.html', {'stockinfo': stockinfox})
 
 # ajax
 def hangqing_ajax(request):

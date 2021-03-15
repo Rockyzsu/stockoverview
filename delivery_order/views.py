@@ -4,7 +4,7 @@ import json
 from django.shortcuts import render
 from delivery_order.models import NameForms
 from django.http import HttpResponse, JsonResponse
-from delivery_order.models import TbDeliveryGjDjango, TbJingzhi2019,TbJingzhi2020, TbBlacklist,TbDeliveryHbDjango,TbJingzhiHB2020
+from delivery_order.models import TbDeliveryGjDjango, TbJingzhi2019,TbJingzhi2020, TbBlacklist,TbDeliveryHbDjango,TbJingzhiHB2020,TbJingzhiHB2021
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
@@ -59,7 +59,7 @@ def query_post_json_hb(request):
     for obj in objs:
         d = obj.成交日期
         d_format = d.strftime('%Y-%m-%d %H:%M:%S')
-        result.append([d_format, obj.证券名称, obj.证券代码,round(obj.成交价格,2, obj.成交金额, obj.成交数量, obj.委托类别])
+        result.append([d_format, obj.证券名称, obj.证券代码,round(obj.成交价格,2), obj.成交金额, obj.成交数量, obj.委托类别])
     if not result:
         result = []
     return JsonResponse(result, safe=False)
@@ -82,7 +82,6 @@ def query_win(request):
         result = []
     sum=round(sum*-1,2)
     result.append(['总盈亏','*','*','*','*','*',sum])
-    # print(sum)
     return JsonResponse(result, safe=False)
 
 
@@ -155,36 +154,64 @@ def jingzhi(request):
 
     return JsonResponse(resp, safe=False)
 
+def year_variable(year):
+    '''
+    根据不同年份初始化
+    :param year:
+    :return:
+    '''
+
+    if year=='2020':
+        start_value = 4096.58
+        obj = TbJingzhiHB2020
+        init_money =60000
+
+    elif year=='2021':
+        start_value = 5035.5441
+        obj = TbJingzhiHB2021
+        init_money =239302  # 初始资金
+
+    else:
+        start_value=0
+        init_money=0
+        obj=None
+
+    return start_value,init_money,obj
+
 @csrf_exempt
 def jingzhi_hb(request):
+    '''
+    更新华宝的净值
+    :param request:
+    :return:
+    '''
     money = request.POST.get('money')
     year = request.POST.get('year')
 
     import tushare as ts
 
-    if year=='2020':
+    start_value,init_money,jz_model=year_variable(year)
 
-        start_value = 4096.58
-        current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-        df = ts.get_index()
-        current_v = df[df['code'] == '000300']['close'].values[0]
-        hs_latest = round(current_v / start_value, 4)
+    current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+    df = ts.get_index()
+    current_v = df[df['code'] == '000300']['close'].values[0]
+    hs_latest = round(current_v / start_value, 4)
 
-        obj = TbJingzhiHB2020.objects.all().order_by('-date')
-        last_day_assert = obj[0].assert_field
+    obj = jz_model.objects.all().order_by('-date')
+    last_day_assert = obj[0].assert_field
 
-        try:
-            money = float(money)
-        except Exception as e:
-            resp = {'status': 0}
-            return JsonResponse(resp, safe=False)
+    try:
+        money = float(money)
+    except Exception as e:
+        resp = {'status': 0}
+        return JsonResponse(resp, safe=False)
 
-        profit = (money - last_day_assert) / last_day_assert * 100
-        profit = round(profit, 2)
-        netvalue = round(money / 60000, 4)
-        obj, ret = TbJingzhiHB2020.objects.get_or_create(date=current, assert_field=money, profit=profit,
-                                                       netvalue=netvalue, hs300=hs_latest)
-        raise_value = round((netvalue - 1) * 100, 2)
+    profit = (money - last_day_assert) / last_day_assert * 100
+    profit = round(profit, 2)
+    netvalue = round(money / init_money, 4)
+    obj, ret = jz_model.objects.get_or_create(date=current, assert_field=money, profit=profit,
+                                                   netvalue=netvalue, hs300=hs_latest)
+    raise_value = round((netvalue - 1) * 100, 2)
 
     if ret:
         resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value,'hs_latest':hs_latest}
@@ -237,9 +264,14 @@ def get_jz_hb(request,year):
     # current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
     if year=='2020':
         objs = TbJingzhiHB2020.objects.all().order_by('-date')
+    elif year=='2021':
+        objs = TbJingzhiHB2021.objects.all().order_by('-date')
     else:
-        print('obj not exists')
+        resp = None
+        return JsonResponse(resp, safe=False)
+
     ret = []
+
     for obj in objs:
         ret.append([obj.date.strftime('%Y-%m-%d'),obj.assert_field,obj.netvalue,obj.profit,obj.hs300])
 

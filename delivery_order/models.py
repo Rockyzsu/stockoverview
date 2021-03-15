@@ -511,6 +511,16 @@ class TbJingzhiHB2020(models.Model):
         managed = False
         db_table = 'tb_jingzhi_hb_2020'
 
+class TbJingzhiHB2021(models.Model):
+    date = models.DateTimeField(db_column='Date', blank=True, null=True)  # Field name made lowercase.
+    assert_field = models.FloatField(db_column='Assert', blank=True, null=True)  # Field name made lowercase. Field renamed because it was a Python reserved word.
+    netvalue = models.FloatField(db_column='NetValue', blank=True, null=True)  # Field name made lowercase.
+    profit = models.FloatField(db_column='Profit', blank=True, null=True)  # Field name made lowercase.
+    hs300 = models.FloatField(db_column='HS300', blank=True, null=True)  # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'tb_jingzhi_hb_2021'
+
 class TbDeliveryGjDjango(models.Model):
     成交日期 = models.DateTimeField(blank=True, null=True)
     证券代码 = models.TextField(blank=True, null=True)
