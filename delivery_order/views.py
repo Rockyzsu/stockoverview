@@ -7,7 +7,7 @@ from delivery_order.models import TbDeliveryGjDjango, TbJingzhi2019,TbJingzhi202
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
-
+from stockoverview.config import init_money_hb,init_money_gj
 
 # Create your views here.
 # 交割单查询页面
@@ -163,12 +163,12 @@ def year_variable(year):
     if year=='2020':
         start_value = 4096.58
         obj = TbJingzhiHB2020
-        init_money =60000
+        init_money =init_money_gj
 
     elif year=='2021':
         start_value = 5035.5441
         obj = TbJingzhiHB2021
-        init_money =239302  # 初始资金
+        init_money =init_money_hb  # 初始资金
 
     else:
         start_value=0
