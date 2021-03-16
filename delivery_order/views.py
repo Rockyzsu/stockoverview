@@ -214,7 +214,7 @@ def jingzhi_hb(request):
     profit = round(profit, 2)
     netvalue = round(money / init_money, 4)
     obj, ret = jz_model.objects.get_or_create(date=current, assert_field=money, profit=profit,
-                                                   netvalue=netvalue, hs300=hs_latest)
+                                                   netvalue=netvalue, hs300=hs_latest,cash=cash,position=position)
     raise_value = round((netvalue - 1) * 100, 2)
 
     if ret:
