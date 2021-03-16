@@ -188,7 +188,7 @@ def jingzhi_hb(request):
     year = request.POST.get('year')
     cash = request.POST.get('cash')
     money=float(money)
-    cash=float(money)
+    cash=float(cash)
     position = (money-cash)/money*100
 
     import tushare as ts
