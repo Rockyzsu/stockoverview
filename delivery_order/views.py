@@ -2,7 +2,6 @@ import datetime
 import json
 
 from django.shortcuts import render
-from delivery_order.models import NameForms
 from django.http import HttpResponse, JsonResponse
 from delivery_order.models import TbDeliveryGjDjango, TbJingzhi2019,TbJingzhi2020, TbBlacklist,TbDeliveryHbDjango,TbJingzhiHB2020,TbJingzhiHB2021
 
@@ -187,6 +186,8 @@ def jingzhi_hb(request):
     '''
     money = request.POST.get('money')
     year = request.POST.get('year')
+    cash = request.POST.get('cash')
+    position = (money-cash)/money*100
 
     import tushare as ts
 
@@ -198,6 +199,7 @@ def jingzhi_hb(request):
     hs_latest = round(current_v / start_value, 4)
 
     obj = jz_model.objects.all().order_by('-date')
+
     last_day_assert = obj[0].assert_field
 
     try:
@@ -214,7 +216,7 @@ def jingzhi_hb(request):
     raise_value = round((netvalue - 1) * 100, 2)
 
     if ret:
-        resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value,'hs_latest':hs_latest}
+        resp = {'status': 1,'netvalue':netvalue,'raise_value':raise_value,'hs_latest':hs_latest,'postion':position}
     else:
         resp = {'status': 0}
 
@@ -261,24 +263,30 @@ def get_jz(request,year):
     return JsonResponse(resp, safe=False)
 
 def get_jz_hb(request,year):
+    # 获取净值
     # current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+    ret = []
+
     if year=='2020':
         objs = TbJingzhiHB2020.objects.all().order_by('-date')
+        for obj in objs:
+            ret.append([obj.date.strftime('%Y-%m-%d'), obj.assert_field, obj.netvalue, obj.profit, obj.hs300, 0,
+                        0])
     elif year=='2021':
         objs = TbJingzhiHB2021.objects.all().order_by('-date')
+        for obj in objs:
+            ret.append([obj.date.strftime('%Y-%m-%d'), obj.assert_field, obj.netvalue, obj.profit, obj.hs300, obj.cash,
+                        obj.position])
+
     else:
         resp = None
         return JsonResponse(resp, safe=False)
 
-    ret = []
 
-    for obj in objs:
-        ret.append([obj.date.strftime('%Y-%m-%d'),obj.assert_field,obj.netvalue,obj.profit,obj.hs300])
 
     if ret:
         resp = ret
     else:
         resp = None
-    # print(resp)
 
     return JsonResponse(resp, safe=False)

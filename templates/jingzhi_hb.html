@@ -34,14 +34,14 @@
     <script>
         $(document).ready(function () {
             $("#record").click(function () {
-                var totals = $("#btn_money").val();
-                console.log(totals);
+                var total_money = $("#btn_money").val();
+                var cash = $("#btn_money_remain").val();
                 year_={{ year }};
 
                 $.ajax({
                     url: '/update_jz_hb/',
                     type: 'POST',
-                    data: {money: totals,year:year_,csrfmiddlewaretoken: '{{ csrf_token }}'},
+                    data: {money: total_money,year:year_,csrfmiddlewaretoken: '{{ csrf_token }}',cash:cash},
                     dataType: 'json',
                     success: function (json) {
 
@@ -73,7 +73,7 @@
                             var tr = document.createElement('tr');
                             tr.setAttribute('class', 'rows');
 
-                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>' + '<td>' + ret[i][4] + '</td>';
+                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>' +'<td>' + ret[i][4] + '</td>'+'<td>' + ret[i][5] + '</td>'+ '<td>' + ret[i][6] + '</td>';
                             tb_content.append(tr);
                         }
                     },
@@ -85,7 +85,9 @@
 <body>
 <div align="center">
     <p>{{ year }} 华宝净值记录</p>
-    输入今日资产：<input type="text" id="btn_money">
+    <p>输入今日资产：</p><input type="text" id="btn_money">
+    <p>输入可用余额：</p><input type="text" id="btn_money_remain">
+
     <button type="button" id="record">录入</button>
 </div>
 <div class="current_jz" align="center"><p id="jz_content"></p></div>
@@ -100,9 +102,12 @@
     <tr id="row_name_json">
         <th>日期</th>
         <th>资产</th>
+
         <th>净值</th>
         <th>涨跌</th>
         <th>沪深300净值</th>
+                <th>现金</th>
+        <th>仓位</th>
     </tr>
 </table>
 </div>
