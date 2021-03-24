@@ -64,22 +64,27 @@
                     url,
                     {},
                     function (ret) {
-
-
                         var tb_content = $('table#jz_history');
-
                         $('tr.rows').remove();
                         for (var i = 0; i <= ret.length - 1; i++) {
                             var tr = document.createElement('tr');
                             tr.setAttribute('class', 'rows');
-
-                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td>' + ret[i][3] + '</td>' +'<td>' + ret[i][4] + '</td>'+'<td>' + ret[i][5] + '</td>'+ '<td>' + ret[i][6] + '</td>';
+                            if (ret[i][3]>=0)
+                            {
+                                 font_color='red';
+                            }
+                            else{
+                                 font_color='green';
+                            }
+                            tr.innerHTML = '<td>' + ret[i][0] + '</td>' + '<td>' + ret[i][1] + '</td>' + '<td>' + ret[i][2] + '</td>' + '<td><font color="'+font_color +'">'+ ret[i][3] +'</font></td>' +'<td>' + ret[i][4] + '</td>'+'<td>' + ret[i][5] + '</td>'+ '<td>' + ret[i][6] + '</td>';
                             tb_content.append(tr);
                         }
                     },
                 );
             });
         });
+
+
     </script>
 </head>
 <body>
@@ -102,11 +107,10 @@
     <tr id="row_name_json">
         <th>日期</th>
         <th>资产</th>
-
         <th>净值</th>
         <th>涨跌</th>
         <th>沪深300净值</th>
-                <th>现金</th>
+        <th>现金</th>
         <th>仓位</th>
     </tr>
 </table>
