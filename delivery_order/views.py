@@ -7,7 +7,7 @@ from delivery_order.models import TbDeliveryGjDjango, TbJingzhi2019, TbJingzhi20
 
 from django.views.decorators.csrf import csrf_exempt
 from stockoverview.config import init_money_hb, init_money_gj, hs300_start_index
-
+from delivery_order.get_index import get_index
 
 # Create your views here.
 # 交割单查询页面
@@ -106,13 +106,14 @@ def jingzhi(request):
     money = request.POST.get('money')
     year = request.POST.get('year')
 
-    import tushare as ts
+    # import tushare as ts
 
     if year == '2019':
 
         start_value = hs300_start_index.get(year, 0)
         current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-        df = ts.get_index()
+
+        df = get_index()
         current_v = df[df['code'] == '000300']['close'].values[0]
         hs_latest = round(current_v / start_value, 4)
 
@@ -136,8 +137,8 @@ def jingzhi(request):
         start_value = hs300_start_index.get(year, 0)
 
         current = (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-        print(current)
-        df = ts.get_index()
+        df = get_index()
+
         current_v = df[df['code'] == '000300']['close'].values[0]
         hs_latest = round(current_v / start_value, 4)
 
@@ -211,11 +212,12 @@ def jingzhi_hb(request):
     cash = float(cash)
     position = round((money - cash) / money * 100, 0)
 
-    import tushare as ts
+    # import tushare as ts
 
     start_value, init_money, jz_model = year_variable(year)
     current = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    df = ts.get_index()
+    df = get_index()
+
     current_v = df[df['code'] == '000300']['close'].values[0]
     hs_latest = round(current_v / start_value, 4)
 
